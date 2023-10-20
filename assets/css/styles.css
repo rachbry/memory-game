@@ -3,15 +3,32 @@
 body {
     background-color: rgb(195, 248, 230);
     text-align: center;
+    font-family: 'Luckiest Guy', cursive;
+    color: #039c8c;
 }
 
 h1 {
-    font-family: 'Luckiest Guy', cursive;
+    letter-spacing: 5px;
+    font-size: 50px;
+    margin-top: 50px;
 }
 
+p {
+    font-size: 36px;
+    letter-spacing: 3px;
+}
+
+#timer {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 36px;
+}
 
 #game-board {
-    width: 660px;
+    width: 700px;
     height: 600px;
     margin: auto;
     display: grid;

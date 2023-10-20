@@ -23,9 +23,11 @@ document.addEventListener("DOMContentLoaded", function () {
     let flippedCards = [];
     let matchedPairs = 0;
 
+    // Populating the array and duplicating it to make pairs
     gameArray = cardIcons.concat(cardIcons);
     gameArray.sort(() => 0.5 - Math.random());
 
+    // Create the game board
     const gameBoard = document.getElementById('game-board');
     for (let i = 0; i < gameArray.length; i++) {
         const card = document.createElement('div');
@@ -34,9 +36,12 @@ document.addEventListener("DOMContentLoaded", function () {
         card.addEventListener('click', handleCardClick);
         gameBoard.appendChild(card);
     }
-
+/**
+ * Deals with the cards when they are clicked
+ */
     function handleCardClick(event) {
         const clickedCard = event.target;
+        let gameWon = false;
 
         // Ignore click if the card is already flipped, matched, or two cards are already flipped
         if (clickedCard.classList.contains('flipped') || clickedCard.classList.contains('matched') || flippedCards.length >= 2) {
@@ -66,8 +71,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Check for game completion
                 if (matchedPairs === cardIcons.length) {
-                    alert('You won!');
-                }
+                    gameWon = true;
+                    const winMessage = document.getElementById('message');
+                    winMessage.innerHTML = "Congratulations you did it!";
+                    stopTimer();
+
+                };
             } else {
                 // Cards do not match, flip them back after a short delay
                 setTimeout(() => {
@@ -80,5 +89,32 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     }
-});
 
+    // Timer function
+    let timerInterval;
+    let totalSeconds = 0;
+    const timerDisplay = document.getElementById('timer');
+
+    function updateTimer() {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    // Flag to check if the game is won
+    let gameWon = false;
+
+    // Function to stop the timer
+    function stopTimer() {
+        clearInterval(timerInterval);
+    }
+
+    document.addEventListener('click', () => {
+        if (!timerInterval && !gameWon) {
+            timerInterval = setInterval(() => {
+                totalSeconds++;
+                updateTimer();
+            }, 1000); // Update every 1 second
+        }
+    });
+})
